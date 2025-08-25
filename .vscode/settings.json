@@ -1,4 +1,7 @@
 {
-  "editor.indentSize": 2,
-  "editor.useTabStops": false
+  "[json]": {
+    "editor.tabSize": 2,  
+    "editor.indentSize": 2,
+    "editor.insertSpaces": true
+  }
 }
