@@ -33,8 +33,7 @@
           "include": "#declaration"
         },
         {
-          "name": "entity.name.type.quakec",
-          "match": "\\b(struct|class)\\b"
+          "include": "#type-declaration"
         },
         {
           "include": "#parm-list"
@@ -54,6 +53,14 @@
         },
         {
           "include": "#expression"
+        }
+      ]
+    },
+    "type-declaration": {
+      "patterns": [
+        {
+          "name": "storage.type.quakec",
+          "match": "\\b(struct|class|enum|union|typedef)\\b"
         }
       ]
     },
@@ -96,6 +103,9 @@
           "include": "#ctl-keyword"
         },
         {
+          "include": "#label"
+        },
+        {
           "include": "#code-block"
         }
       ]
@@ -117,7 +127,7 @@
       "patterns": [
         {
           "name": "keyword.control.quakec",
-          "match": "\\b(if|else|while|do|for|return|switch|case|default|prior)\\b"
+          "match": "\\b(if|else|while|do|for|break|continue|goto|return|switch|case|default|prior)\\b"
         }
       ]
     },
@@ -132,7 +142,25 @@
     "type": {
       "patterns": [
         {
-          "match": "(\\.|\\b)(float|int|string|vector|entity|void)\\b",
+          "includ": "#field"
+        },
+        {
+          "include": "#primitive"
+        }
+      ]
+    },
+    "field": {
+      "patterns": [
+        {
+          "match": "\\.(float|int|string|vector|entity|void)\\b",
+          "name": "storage.type.quakec"
+        }
+      ]
+    },
+    "primitive": {
+      "patterns": [
+        {
+          "match": "\\b(float|int|string|vector|entity|void|__variant)\\b",
           "name": "storage.type.quakec"
         }
       ]
@@ -149,11 +177,15 @@
       "patterns": [
         {
           "name": "keyword.operator.quakec",
-          "match": "(><|>=|<=|==|!=|&&|\\|\\|)"
+          "match": "(>>=|<<=|&&=|\\|\\|=)"
         },
         {
           "name": "keyword.operator.quakec",
-          "match": "(\\.|!|~|&|\\||\\^|\\*|/|\\+|-|>|<|=)"
+          "match": "(><|>=|<=|==|!=|&&|\\|\\|~=|&=|\\|=|\\^=|\\*=|/=|\\+=|-=|\\+\\+|--)"
+        },
+        {
+          "name": "keyword.operator.quakec",
+          "match": "(\\.|!|~|&|\\||\\^|\\*|%|/|\\+|-|>|<|=|\\?|:)"
         },
         {
           "name": "keyword.operator.new.quakec",
@@ -163,6 +195,9 @@
     },
     "literal": {
       "patterns": [
+        {
+          "include": "#raw-string"
+        },
         {
           "include": "#string-literal"
         },
@@ -184,9 +219,14 @@
       "patterns": [
         {
           "name": "constant.character.escape.quakec",
-          "match": "\\\\."
+          "match": "\\\\([\\\\\"'nrts0-9\\(=\\)<\\->]|x[0-9a-fA-F][0-9a-fA-F])"
         }
       ]
+    },
+    "raw-string": {
+      "name": "string.quoted.double",
+      "begin": "R\"(\\S*)\\(",
+      "end": "\\)\\1"
     },
     "vector-literal": {
       "name": "string.quoted.single.quakec",
@@ -208,7 +248,7 @@
           "match": "-?\\b[0-9]+\\.[0-9]+([eE]-?[0-9]+)?\\b"
         },
         {
-          "match": "-?\\b[0-9]+\\.?",
+          "match": "-?\\b[0-9]+(\\.|i)?",
           "name": "constant.numeric.quakec"
         }
       ]
@@ -227,7 +267,7 @@
       "patterns": [
         {
           "name": "meta.preprocessor",
-          "begin": "^\\s*#\\s*(if|ifdef|elif|endif|else|define|undef|pragma|include)\\b",
+          "begin": "^\\s*#\\s*(if|ifdef|ifndef|elif|endif|else|define|undef|pragma|include|append|error|message)\\b",
           "end": "([^\\\\]|^)\r?\n"
         }
       ]
