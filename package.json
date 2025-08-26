@@ -2,7 +2,7 @@
   "name": "quakec-syntax",
   "displayName": "QuakeC Syntax",
   "description": "QuakeC syntax highlighting",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.103.0"
   },

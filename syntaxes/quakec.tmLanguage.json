@@ -142,7 +142,7 @@
     "type": {
       "patterns": [
         {
-          "includ": "#field"
+          "include": "#field"
         },
         {
           "include": "#primitive"
