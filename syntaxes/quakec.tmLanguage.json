@@ -4,85 +4,32 @@
   "scopeName": "source.quakec",
   "patterns": [
     {
-      "include": "#anywhere"
+      "include": "#comment"
+    },
+    {
+      "include": "#directive"
     },
     {
       "include": "#command"
     },
     {
-      "include": "#top-level-declaration"
+      "include": "#toplevel-declaration"
     }
   ],
   "repository": {
-    "anywhere": {
+    "toplevel-declaration": {
       "patterns": [
         {
-          "include": "#block-comment"
+          "include": "#type-declaration-keyword"
         },
         {
-          "include": "#line-comment"
+          "include": "#type"
         },
-        {
-          "include": "#directive"
-        }
-      ]
-    },
-    "top-level-declaration": {
-      "patterns": [
-        {
-          "include": "#declaration"
-        },
-        {
-          "include": "#type-declaration"
-        },
-        {
-          "include": "#parm-list"
-        },
-        {
-          "include": "#code-block"
-        }
-      ]
-    },
-    "declaration": {
-      "patterns": [
         {
           "include": "#modifier"
         },
         {
-          "include": "#type"
-        },
-        {
-          "include": "#expression"
-        }
-      ]
-    },
-    "type-declaration": {
-      "patterns": [
-        {
-          "name": "storage.type.quakec",
-          "match": "\\b(struct|class|enum|union|typedef)\\b"
-        }
-      ]
-    },
-    "parm-list": {
-      "begin": "\\(",
-      "end": "\\)",
-      "beginCaptures": {
-        "0": {
-          "name": "parm-list.open.quakec"
-        }
-      },
-      "endCaptures": {
-        "0": {
-          "name": "parm-list.close.quakec"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#anywhere"
-        },
-        {
-          "include": "#type"
+          "include": "#code-block"
         },
         {
           "include": "#expression"
@@ -94,97 +41,92 @@
       "end": "}",
       "patterns": [
         {
-          "include": "#anywhere"
+          "include": "#comment"
         },
         {
-          "include": "#declaration"
+          "include": "#directive"
+        },
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "statement": {
+      "patterns": [
+        {
+          "include": "#modifier"
+        },
+        {
+          "include": "#type"
         },
         {
           "include": "#ctl-keyword"
         },
         {
-          "include": "#label"
+          "patterns": [
+            {
+              "match": "\\bprior\\b",
+              "name": "support.function"
+            }
+          ]
+        },
+        {
+          "include": "#expression"
+        }
+      ]
+    },
+    "type-declaration-keyword": {
+      "name": "storage.type.quakec",
+      "match": "\\b(struct|class|enum|union|typedef)\\b"
+    },
+    "expression": {
+      "patterns": [
+        {
+          "include": "#literal"
+        },
+        {
+          "include": "#operator"
         },
         {
           "include": "#code-block"
         }
       ]
     },
-    "expression": {
-      "patterns": [
-        {
-          "include": "#anywhere"
-        },
-        {
-          "include": "#literal"
-        },
-        {
-          "include": "#operator"
-        }
-      ]
-    },
     "ctl-keyword": {
-      "patterns": [
-        {
-          "name": "keyword.control.quakec",
-          "match": "\\b(if|else|while|do|for|break|continue|goto|return|switch|case|default|prior)\\b"
-        }
-      ]
+      "name": "keyword.control.quakec",
+      "match": "\\b(if|else|while|do|for|break|continue|goto|return|switch|case|default)\\b"
     },
     "command": {
-      "patterns": [
-        {
-          "match": "\\$(cd|origin|base|skin|frame|scale)\\b",
-          "name": "keyword.other.command.quakec"
-        }
-      ]
+      "match": "\\$(cd|origin|base|skin|frame|scale)\\b",
+      "name": "keyword.other.command.quakec"
     },
     "type": {
       "patterns": [
-        {
-          "include": "#field"
-        },
         {
           "include": "#primitive"
         }
       ]
     },
-    "field": {
-      "patterns": [
-        {
-          "match": "\\.(float|int|string|vector|entity|void)\\b",
-          "name": "storage.type.quakec"
-        }
-      ]
-    },
     "primitive": {
-      "patterns": [
-        {
-          "match": "\\b(float|int|string|vector|entity|void|__variant)\\b",
-          "name": "storage.type.quakec"
-        }
-      ]
+      "match": "\\b(float|int|string|vector|entity|void|__variant)\\b",
+      "name": "storage.type.quakec"
     },
     "modifier": {
-      "patterns": [
-        {
-          "name": "storage.modifier.quakec",
-          "match": "\\b(local|const|static|__wrap)\\b"
-        }
-      ]
+      "name": "storage.modifier.quakec",
+      "match": "\\b(local|const|static|__wrap)\\b"
     },
     "operator": {
       "patterns": [
         {
-          "name": "keyword.operator.quakec",
+          "name": "keyword.operator.symbole.quakec",
           "match": "(>>=|<<=|&&=|\\|\\|=)"
         },
         {
-          "name": "keyword.operator.quakec",
+          "name": "keyword.operator.symbole.quakec",
           "match": "(><|>=|<=|==|!=|&&|\\|\\|~=|&=|\\|=|\\^=|\\*=|/=|\\+=|-=|\\+\\+|--)"
         },
         {
-          "name": "keyword.operator.quakec",
+          "name": "keyword.operator.symbole.quakec",
           "match": "(\\.|!|~|&|\\||\\^|\\*|%|/|\\+|-|>|<|=|\\?|:)"
         },
         {
@@ -226,7 +168,7 @@
     "raw-string": {
       "name": "string.quoted.double",
       "begin": "R\"(\\S*)\\(",
-      "end": "\\)\\1"
+      "end": "\\)\\1\""
     },
     "vector-literal": {
       "name": "string.quoted.single.quakec",
@@ -250,6 +192,16 @@
         {
           "match": "-?\\b[0-9]+(\\.|i)?",
           "name": "constant.numeric.quakec"
+        }
+      ]
+    },
+    "comment": {
+      "patterns": [
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#line-comment"
         }
       ]
     },
